@@ -2,25 +2,24 @@ import sys
 
 input = sys.stdin.readline
 
-N = int(input())  # 도시수
+N = int(input())  # 도시 수
 fee = [list(map(int, input().split())) for _ in range(N)]
-min_fee = int(1,000,000)  # 최소 비용
+min_fee = float('inf')  # 숫자형 무한대 사용
 
-def dfs_backtracking(start, next, price, visited):
+def dfs_backtracking(start, cur, cost, visited):
     global min_fee
 
-    if len(visited) == N:  # 모든 도시를 방문
-        if fee[next][start] != 0:
-            min_fee = min(min_fee, price + fee[next][start])
+    if len(visited) == N:  # 모든 도시를 방문한 경우
+        if fee[cur][start] != 0:
+            min_fee = min(min_fee, cost + fee[cur][start])
         return
 
     for i in range(N):  # 모든 도시 탐색
-        if fee[next][i] != 0 and i not in visited and price + fee[next][i] < min_fee:
-            dfs_backtracking(start, i, price + fee[next][i], visited | {i})  # 방문한 도시 추가
+        if fee[cur][i] != 0 and i not in visited and cost + fee[cur][i] < min_fee:
+            dfs_backtracking(start, i, cost + fee[cur][i], visited | {i})
 
-
-# 각 도시를 출발점으로 설정
+# 각 도시를 출발점으로 DFS 실행
 for i in range(N):
-    dfs_backtracking(i, i, 0, {i})  # 출발 도시를 집합으로 전달
+    dfs_backtracking(i, i, 0, {i})
 
 print(min_fee)
