@@ -1,10 +1,13 @@
 import sys
-# 단어정렬
+
 n= int(input())
 word = []
 for i in range(n):
-  word.append(sys.stdin.readline())
-sorted_words= sorted(word, key=len)
+  word.append(input())
 
-for i in range(len(sorted_words)):
-  print(sorted_words[i])
+word =list(set(word))
+word.sort()
+word= sorted(word, key=len) 
+
+for i in range(len(word)):
+  print(word[i])
