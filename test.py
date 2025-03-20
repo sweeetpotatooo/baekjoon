@@ -1,49 +1,16 @@
-# def fac (n):
-#   result = 1
-#   for i in range(1,n+1):
-#     result *=i 
-#   return result
-  
+n = int(input())
+stack = []
+count = 1
 
-# print(fac(5))
+for _ in range(n):
+    num = int(input())
+    stack.append(num)
 
+peek = stack[-1]
 
-# def fac(n):
-#   if n == 0: 
-#     return 1
-#   return n*fac(n-1)
-# print(fac(5))
+for _ in range(n - 1):
+    stack.pop()
+    if stack and peek < stack[-1]:  
+        count += 1
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def fac(n):
-#   if n == 0:
-#     return 1
-#   return n*fac(n-1)
-# print (fac(5))
-
-
-def fac (n):
-  result = 1
-  for i in range(1,n+1):
-    result*=i
-  return result
-
-print(fac(5))
+print(count)
