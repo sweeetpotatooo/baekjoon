@@ -20,22 +20,23 @@
 
 import sys
 input = sys.stdin.readline
+# 입력 받기
+n = int(input().strip())
+towers = list(map(int,input().split()))
 
-t= int(input())
-top=list(map(int,input().split()))
-stack = []
-answer = []
+stack = []  #탑 인덱스
+result = [0] * n  # 결과
 
-for i in range(t):
-        while stack:
-            if stack[-1][1] > top[i]:
-                answer.append(stack[-1][0] + 1)
-                break
-            else:
-                stack.pop()
-        if not stack: 
-            answer.append(0)
-        stack.append([i, top[i]]) 
+# 각 탑을 순회하면서
+for i, height in enumerate(towers):
+    while stack and towers[stack[-1]] < height:
+        stack.pop()
+    # 스택이 비어있지 않으면, 스택의 top에 있는 탑이 현재 탑에 레이저를 수신하는 탑
+    if stack:
+        result[i] = stack[-1] + 1  # 문제는 1번부터 시작
+    else:
+        result[i] = 0  # 수신할 탑이 없으면 0
+    # 현재 탑의 인덱스를 스택에 push
+    stack.append(i)
 
-print(" ".join(map(str, answer)))
-
+print(" ".join(map(str, result)))
