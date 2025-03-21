@@ -18,25 +18,17 @@
 # 첫째 줄에 주어진 탑들의 순서대로 각각의 탑들에서 발사한 레이저 신호를 수신한 탑들의 번호를 하나의 빈칸을 사이에 두고 출력한다. 
 # 만약 레이저 신호를 수신하는 탑이 존재하지 않으면 0을 출력한다.
 
-import sys
-input = sys.stdin.readline
-# 입력 받기
-n = int(input().strip())
-towers = list(map(int,input().split()))
 
-stack = []  #탑 인덱스
-result = [0] * n  # 결과
+n = int(input())
+towers = list(map(int, input().split()))
+stack = []
+stack.append((int(1e9), 0))
 
-# 각 탑을 순회하면서
-for i, height in enumerate(towers):
-    while stack and towers[stack[-1]] < height:
+result = []
+for i in range(1, n+1):
+    while stack[-1][0] <= towers[i-1]:
         stack.pop()
-    # 스택이 비어있지 않으면, 스택의 top에 있는 탑이 현재 탑에 레이저를 수신하는 탑
-    if stack:
-        result[i] = stack[-1] + 1  # 문제는 1번부터 시작
-    else:
-        result[i] = 0  # 수신할 탑이 없으면 0
-    # 현재 탑의 인덱스를 스택에 push
-    stack.append(i)
+    result.append(stack[-1][1])
+    stack.append((towers[i-1], i))
 
-print(" ".join(map(str, result)))
+print(*result)
