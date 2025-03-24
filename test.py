@@ -1,27 +1,28 @@
-import sys
-input = sys.stdin.readline
-
 n = int(input())
-a = list(map(int, input().split()))
-m = int(input())
-num_list = list(map(int, input().split()))
+arr = list(map(int, input().split(' ')))
+arr.sort()
 
-a.sort()
+left = 0
+right = n-1
 
-for num in num_list:
-    start, end = 0, n - 1
-    is_exist = False
+answer = abs(arr[left] + arr[right])
+final = [arr[left], arr[right]]
 
-    while start <= end:
-        mid = (start + end) // 2
-        if num == a[mid]:
-            is_exist = True
-            print(1)
-            break
-        elif num > a[mid]:
-            start = mid + 1
-        else:
-            end = mid - 1
 
-    if not is_exist:
-        print(0)
+while left < right:
+    left_val = arr[left]
+    right_val = arr[right]
+
+    sum = left_val + right_val
+  
+    if abs(sum) < answer:
+        answer = abs(sum)
+        final = [left_val, right_val]
+        if answer == 0:
+          break
+    if sum < 0:
+        left += 1
+    else:
+        right -= 1
+
+print(final[0], final[1])

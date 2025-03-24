@@ -5,7 +5,8 @@
 # C개의 공유기를 N개의 집에 적당히 설치해서, 가장 인접한 두 공유기 사이의 거리를 최대로 하는 프로그램을 작성하시오.
 
 # 입력
-# 첫째 줄에 집의 개수 N (2 ≤ N ≤ 200,000)과 공유기의 개수 C (2 ≤ C ≤ N)이 하나 이상의 빈 칸을 사이에 두고 주어진다. 둘째 줄부터 N개의 줄에는 집의 좌표를 나타내는 xi (0 ≤ xi ≤ 1,000,000,000)가 한 줄에 하나씩 주어진다.
+# 첫째 줄에 집의 개수 N (2 ≤ N ≤ 200,000)과 공유기의 개수 C (2 ≤ C ≤ N)이 하나 이상의 빈 칸을 사이에 두고 주어진다. 
+# 둘째 줄부터 N개의 줄에는 집의 좌표를 나타내는 xi (0 ≤ xi ≤ 1,000,000,000)가 한 줄에 하나씩 주어진다.
 
 # 출력
 # 첫째 줄에 가장 인접한 두 공유기 사이의 최대 거리를 출력한다.
@@ -14,4 +15,41 @@
 
 import sys
 input = sys.stdin.readline
+
+gong_u_gi = []
+n , c = map(int, input().split())
+
+for _ in range(n):
+  gong_u_gi.append(int(input()))
+
+gong_u_gi.sort()
+
+start = 1 
+end = gong_u_gi[-1] - gong_u_gi[0]
+result = 0
+   
+while (start <= end):
+    mid = (start + end) // 2 
+    current = gong_u_gi[0]
+    count = 1
+
+    for i in range(1, len(gong_u_gi)):
+            if gong_u_gi[i] >= current + mid:
+                count += 1
+                current = gong_u_gi[i]
+        # 공유기 설치 수가 목표 보다 크면 공유기 사이 거리 늘림
+    if count >= c:
+          start = mid + 1
+          result = mid
+        # 공유기 설치 수가 목표 보다 작으면 공유기 사이 거리 줄임
+    else:
+            end = mid - 1
+
+print(result)
+
+
+# 공유기 최소거리 start, 공유기 최대 거리 end, 공유기 현재 거리 current
+# count-> 공유기 설치수
+
+
 
