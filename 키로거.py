@@ -11,27 +11,29 @@
 
 # 출력
 # 각 테스트 케이스에 대해서, 강산이의 비밀번호를 출력한다. 비밀번호의 길이는 항상 0보다 크다.
-
 import sys
 input = sys.stdin.readline
 
-t = int(input())
+n = int(input().rstrip())
 
-for _ in range(t):
-    l_list = []
-    r_list = []
-    data = input()
-    for i in data:
-        if i == '-':
-            if l_list: 
-                l_list.pop()
-        elif i == '<':
-            if l_list:
-                r_list.append(l_list.pop())
-        elif i == '>':
-            if r_list:
-                l_list.append(r_list.pop())
+for _ in range(n):
+    left = []
+    right = []
+    cmd = input().rstrip('\n')
+    
+    for char in cmd:
+        if char == '<':
+            if left:
+                right.append(left.pop())
+        elif char == '>':
+            if right:
+                left.append(right.pop())
+        elif char == '-':
+            if left:
+                left.pop()
         else:
-            l_list.append(i)
-    l_list.extend(reversed(r_list))
-    print(''.join(l_list))
+            left.append(char)
+    
+    left.extend(reversed(right))
+    
+    print(''.join(left))
