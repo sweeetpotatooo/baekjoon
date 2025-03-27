@@ -27,19 +27,28 @@ T = int(input().strip())
 for i in range(T):
   N,M = map(int,input().split())
   grade = list(map(int,input().split()))
-
-  queue = deque((p, idx) for idx, p in enumerate(grade))
-    
+  queue = deque()
+  
+  for idx, p in enumerate(grade):
+        queue.append((p, idx))
   print_count = 0  
     
   while queue:
         current = queue[0]
-        if any(current[0] < q[0] for q in queue):
-            queue.rotate(-1)
+        for q in queue:
+            if current[0] < q[0]:
+                queue.rotate(-1)
+                break
         else:
-
             printed = queue.popleft()
             print_count += 1
             if printed[1] == M:
                 print(print_count)
                 break
+
+            
+# queue에 문서 중요도와 인덱스를 넣는다
+# queue의 첫번째 문서와 나머지 문서를 비교
+# 첫번째 문서보다 중요도가 높은 문서가 있으면 첫번째 문서를 마지막으로 보낸다
+# 첫번째 문서보다 중요도가 높은 문서가 없으면 첫번째 문서를 출력
+# 출력한 문서가 찾는 문서이면 출력하고 종료
