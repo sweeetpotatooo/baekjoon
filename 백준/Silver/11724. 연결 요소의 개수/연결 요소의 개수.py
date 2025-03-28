@@ -1,27 +1,31 @@
 import sys
 input = sys.stdin.readline
 
-n,m = map(int,input().split())
+n, m = map(int, input().split())
 
-graph = {i: [] for i in range(1,n+1)}
+parent = [0] * (n+1)
+for i in range(n+1):
+    parent[i] = i
+
+def find(x):
+    if parent[x] != x:
+        parent[x] = find(parent[x])
+    return parent[x]
+
+def union(x, y):
+    xroot = find(x)
+    yroot = find(y)
+    if xroot != yroot:
+        parent[yroot] = xroot
 
 for _ in range(m):
-  a,b = map(int, input().split())
-  graph[a].append(b)
-  graph[b].append(a)
+    a, b = map(int, input().split())
+    union(a, b)
 
-visited = set()
-components = 0
-
-def dfs(v):
-    visited.add(v)
-    for neighbor in graph[v]:
-        if neighbor not in visited:
-            dfs(neighbor)
-
-for node in range(1, n+1):
-    if node not in visited:
-        dfs(node)
-        components += 1
-
+distinct_roots = []
+for i in range(1, n+1):
+    root = find(i)
+    if root not in distinct_roots:
+        distinct_roots.append(root)
+components = len(distinct_roots)
 print(components)
