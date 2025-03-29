@@ -26,6 +26,7 @@ def union(a, b):
     root_b = find(b)
     if root_a != root_b:
         parent[root_b] = root_a
+        
         return True
     return False
 

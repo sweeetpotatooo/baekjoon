@@ -1,28 +1,29 @@
-n = int(input())
-arr = list(map(int, input().split(' ')))
-arr.sort()
+import sys
+sys.setrecursionlimit(10**6)
+input = sys.stdin.readline
 
-left = 0
-right = n-1
+n, m = map(int, input().split())
+graph = {i: [] for i in range(1, n + 1)}
 
-answer = abs(arr[left] + arr[right])
-final = [arr[left], arr[right]]
+for _ in range(m):
+    a, b = map(int, input().split())
+    graph[a].append(b)
 
+def topol(graph):
+    visited = set()
+    stack = []
 
-while left < right:
-    left_val = arr[left]
-    right_val = arr[right]
+    def dfs(node):
+        visited.add(node)
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                dfs(neighbor)
+        stack.append(node)
 
-    sum = left_val + right_val
-  
-    if abs(sum) < answer:
-        answer = abs(sum)
-        final = [left_val, right_val]
-        if answer == 0:
-          break
-    if sum < 0:
-        left += 1
-    else:
-        right -= 1
+    for node in graph:
+        if node not in visited:
+            dfs(node)
+    return stack[::-1]
 
-print(final[0], final[1])
+result = topol(graph)
+print(" ".join(map(str, result)))
