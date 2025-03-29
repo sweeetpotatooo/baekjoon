@@ -1,25 +1,27 @@
 import sys
 sys.setrecursionlimit(10**6)
-input = sys.stdin.readline
+input_data = sys.stdin.read().split()
+pre = list(map(int, input_data))
+n = len(pre)
+result = []
+idx = 0
 
-pre = []
-while True:
-    try:
-        x = int(input())
-        pre.append(x)
-    except:
-        break
-
-def post(start, end):
-    if start >= end:
+def rec(lower, upper):
+    global idx
+    if idx >= n:
         return
-    root = pre[start]
-    mid = start + 1
-    while mid < end and pre[mid] < root:
-        mid += 1
-    post(start+1, mid)
-    post(mid, end)
-    print(root)
+    # 현재 노드가 허용 범위에 없다면 재귀 종료
+    if pre[idx] < lower or pre[idx] > upper:
+        return
 
-post(0, len(pre))
+    root = pre[idx]
+    idx += 1
+    # 왼쪽 서브트리: 허용 범위는 (lower, root)
+    rec(lower, root)
+    # 오른쪽 서브트리: 허용 범위는 (root, upper)
+    rec(root, upper)
+    result.append(root)
 
+# 초기 허용 범위는 음의 무한대 ~ 양의 무한대로 설정
+rec(float('-inf'), float('inf'))
+sys.stdout.write("\n".join(map(str, result)))
