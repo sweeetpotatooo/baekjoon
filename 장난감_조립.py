@@ -61,3 +61,66 @@ result_f = topological_sort()
 for i in range(1, n):
     if result_f[n][i] != 0:
         print(i, result_f[n][i])
+
+
+
+# import sys
+# from collections import deque
+# input = sys.stdin.readline
+
+# # 노드(부품) 개수와 간선(조립 관계) 개수 입력
+# n = int(input())
+# m = int(input())
+
+# # 각 노드의 후속 노드를 저장할 인접 리스트 초기화
+# graph = [[] for _ in range(n+1)]
+# # 위상 정렬에 사용할 큐 초기화
+# queue = deque()
+# # 각 노드의 진입 차수를 저장할 리스트 초기화
+# indegree = [0] * (n+1)
+
+# # m개의 조립 관계 입력 받기
+# # 각 줄은 a, b, c로 구성
+# # "b번 부품을 조립할 때 a번 부품이 c개 필요하다"는 의미로 해석 가능
+# for _ in range(m):
+#     a, b, c = map(int, input().split())
+#     # b에서 a로 연결되는 간선 저장 (a는 b의 구성 부품)
+#     graph[b].append((a, c))
+#     # a의 진입 차수 증가 (a를 조립하기 위해 b가 선행되어야 함)
+#     indegree[a] += 1
+
+# def topological_sort():
+#     # 결과 행렬: result[x][y]는 x번 부품을 만들 때 기본 부품 y가 몇 개 필요한지를 의미
+#     result = [[0] * (n+1) for _ in range(n+1)]
+
+#     # 진입 차수가 0인 노드는 기본 부품임
+#     for i in range(1, n+1):
+#         if indegree[i] == 0:
+#             queue.append(i)
+#             # 기본 부품의 경우 자기 자신을 1개 가진다고 초기화
+#             result[i][i] = 1
+
+#     # 위상 정렬을 진행하며 각 부품별 기본 부품의 개수를 누적
+#     while queue:
+#         # 큐에서 현재 노드(부품) 꺼내기
+#         node = queue.popleft()
+#         # 현재 노드에 연결된 후속 노드(조립 부품)들에 대해 처리
+#         for next_node, cost in graph[node]:
+#             # 모든 기본 부품에 대해 현재 노드가 next_node에 기여하는 양 계산
+#             for i in range(1, n+1):
+#                 result[next_node][i] += result[node][i] * cost
+#             # 후속 노드의 진입 차수를 감소
+#             indegree[next_node] -= 1
+#             # 진입 차수가 0이 되면 큐에 추가 (조립이 가능한 상태)
+#             if indegree[next_node] == 0:
+#                 queue.append(next_node)
+#     return result
+
+# # 위상 정렬 수행 및 결과 행렬 획득
+# result_f = topological_sort()
+
+# # 최종 제품(n번 부품)에 대해 기본 부품들만 결과 출력
+# # result_f[n][i]가 0이 아니면 i번 기본 부품이 필요하다는 의미
+# for i in range(1, n):
+#     if result_f[n][i] != 0:
+#         print(i, result_f[n][i])
