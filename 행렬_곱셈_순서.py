@@ -19,11 +19,20 @@
 # 출력
 # 첫째 줄에 입력으로 주어진 행렬을 곱하는데 필요한 곱셈 연산의 최솟값을 출력한다. 
 # 정답은 231-1 보다 작거나 같은 자연수이다. 또한, 최악의 순서로 연산해도 연산 횟수가 231-1보다 작거나 같다.
-
 import sys
 input = sys.stdin.readline
-matrix = []
 
 n = int(input())
-for _ in  range(n):
-  r,c = map(int, input())
+mat = [tuple(map(int, input().split())) for _ in range(n)]
+
+dp = [[0] * n for _ in range(n)]
+
+for l in range(1, n):
+    for i in range(n - l):
+        j = i + l
+        dp[i][j] = float('inf')
+        for k in range(i, j):
+            cost = dp[i][k] + dp[k+1][j] + mat[i][0] * mat[k][1] * mat[j][1]
+            dp[i][j] = min(dp[i][j], cost)
+
+print(dp[0][n-1])
