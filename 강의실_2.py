@@ -12,20 +12,29 @@
 
 # 출력
 # 첫째 줄에 필요한 최소 강의실 개수 K를 출력한다. 둘째 줄부터 N개의 줄에 걸쳐 각 강의에 배정할 강의실 번호를 순서대로 출력한다. 편의상 강의실 번호는 1, 2, ..., K 로 매긴다.
+import sys, heapq
+input = sys.stdin.readline
+n = int(input())
+arr = [list(map(int,input().split())) for _ in range(n)]
+lecture = [0 for _ in range(n+1)]
+arr.sort(key=lambda x: (x[1], x[2]))
+room = []
+for i in range(1, n+1):
+    heapq.heappush(room, i)
 
-import sys
-input= sys.stdin.readline
+minHeap = []
+for x in arr:
+    while minHeap and minHeap[0][0] <= x[1]:
+        end, r = heapq.heappop(minHeap)
+        heapq.heappush(room, r)
 
-n=int(input())
-lectures =[]
-for _ in range(n):
-  lec_num, lec_start, lec_end = map(int, input().split())
-  lectures.append((lec_num, lec_start, lec_end))
+    r = heapq.heappop(room)
+    heapq.heappush(minHeap, [x[2], r])
+    lecture[x[0]] = r
 
-lectures.sort(key=lambda x : (x[2],x[1]))
-
-count =1
-
+print(max(lecture))
+for x in lecture[1:]:
+    print(x)
 
 # 이거 회의실 배정이랑 비슷한거 같은데 그때는 그 뭐냐 키값 람다로 끝나는 시간 시작시간으로 설정
 # 강의 끝나는 시간 순 정렬
