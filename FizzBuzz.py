@@ -21,12 +21,12 @@
 
 import sys
 input = sys.stdin.readline
-n = 0  # 초기화 추가
+n = 0
 for i in range(3,0,-1):
     fizzbuzz = input().strip()
     if fizzbuzz.lower() not in ["fizzbuzz","fizz","buzz"]:
         n = int(fizzbuzz)+i
-        break  # 숫자를 찾으면 루프 종료
+        break
 
 if n%3==0 and n%5==0:
     print('FizzBuzz')
