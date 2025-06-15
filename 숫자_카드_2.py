@@ -12,23 +12,35 @@
 # 첫째 줄에 입력으로 주어진 M개의 수에 대해서, 각 수가 적힌 숫자 카드를 상근이가 몇 개 가지고 있는지를 공백으로 구분해 출력한다.
 
 import sys
-input= sys.stdin.readline
-
+input = sys.stdin.readline
+ 
 N = int(input())
-card_num = list(map(int, input().split()))
-card_num.sort()
-
-
+my_list = sorted(map(int, input().split()))
 M = int(input())
-find_num = list(map(int, input().split()))
-
-count = 0
-
-left = 0
-right = N-1
-
-while left< right:
-  mid = (left+right)//2
+card_list = map(int, input().split())
+ 
+dic = {}
+for i in my_list:
+    if i in dic:
+        dic[i] += 1
+    else:
+        dic[i] = 1
+ 
+def binarySearch(target, start, end):
+    if start > end:
+        return 0
+    
+    mid = (start + end) // 2
+    
+    if target == my_list[mid]:
+        return dic[target]
+    elif target > my_list[mid]:
+        return binarySearch(target, mid + 1, end)
+    elif target < my_list[mid]:
+        return binarySearch(target, start, mid - 1)
+ 
+for target in card_list:
+    print(binarySearch(target, 0, N - 1), end=" ")
 
 
 
